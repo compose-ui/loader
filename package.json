@@ -15,7 +15,7 @@
     "loading",
     "indicator"
   ],
-  "authors": ["Kyle Foster", "Brandon Mathis"]
+  "authors": ["Kyle Foster", "Brandon Mathis"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/compose-ui/loader/issues"
