@@ -22,22 +22,22 @@ var Loader = {
   },
   
   // Show loader with default loading message and style
-  show: function ( message ) {
-    this.showLoader( 'loading', message || 'Hang tight…' )
+  loading: function ( message ) {
+    this.show( message || 'Hang tight…', 'loading' )
   },
 
   // Show loader with success loading message and style
   success: function ( message ) {
-    this.showLoader( 'success', message || 'Got it!' )
+    this.show( message || 'Got it!', 'success' )
   },
 
   // Show loader with success failure message and style
   failure: function ( message ) {
-    this.showLoader( 'failure', message || 'Hold up!' )
+    this.show( message || 'Hold up!', 'failure' )
   },
 
   // Base show loader function
-  showLoader: function( classname, message ) {
+  show: function( message, classname ) {
 
     el = this.init()
 
@@ -48,10 +48,11 @@ var Loader = {
   },
 
   // Hide loader icon function
-  hide: function() {
+  remove: function() {
 
     // Reset to base classname
-    this.element().className = this.options.loaderClass
+    var el = this.element()
+    el.parentNode.removeChild(el)
 
   }
 

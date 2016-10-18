@@ -7,9 +7,10 @@ var loaderEl = function() {
 }
 
 describe('Loader', function(){
-  it('shows a loader', function(){
+  it('displays a loading state', function(){
 
-    Loader.show()
+    Loader.loading()
+
     assert.isDefined( loaderEl() )
     assert.equal( loaderEl().textContent, 'Hang tight…')
     assert.isTrue( loaderEl().classList.contains( 'loading' ) )
@@ -19,6 +20,7 @@ describe('Loader', function(){
   it('displays a failure state', function(){
 
     Loader.failure()
+
     assert.equal( loaderEl().textContent, 'Hold up!' )
     assert.isTrue( loaderEl().classList.contains( 'failure' ) )
 
@@ -27,14 +29,16 @@ describe('Loader', function(){
   it('displays a success state', function(){
 
     Loader.success()
+
     assert.equal( loaderEl().textContent, 'Got it!' )
     assert.isTrue( loaderEl().classList.contains( 'success' ) )
 
   })
 
-  it('displays a success custom show message', function(){
+  it('displays a success custom loading message', function(){
 
-    Loader.show( 'Chill yo…' )
+    Loader.loading( 'Chill yo…' )
+
     assert.equal( loaderEl().textContent, 'Chill yo…' )
     assert.isTrue( loaderEl().classList.contains( 'loading' ) )
 
@@ -42,10 +46,14 @@ describe('Loader', function(){
 
   it('displays a success custom show message', function(){
 
-    Loader.showLoader( 'test-class', 'Test Message!' )
+    Loader.show( 'Test Message!', 'test-class' )
     assert.equal( loaderEl().textContent, 'Test Message!' )
     assert.isTrue( loaderEl().classList.contains( 'test-class' ) )
 
   })
-})
 
+  it('removes the loader when done', function() {
+    Loader.remove()
+    assert.isNull(loaderEl())
+  })
+})
