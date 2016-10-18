@@ -20,3 +20,19 @@ Loader.show(message, classname)
 // Remove loader from DOM
 Loader.remove()
 ```
+
+This will inject a div into the DOM at the end of `document.body`.
+
+```html
+<div class='loader'></div>
+```
+
+The functions above will manipulate the classnames and text content of this element.
+
+You can change the default classname and insertion point of this
+element:
+
+```js
+Loader.options.className = 'loader spinner'
+Loader.options.parent = document.querySelector('#loader-parent')
+```

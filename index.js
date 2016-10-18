@@ -1,16 +1,20 @@
+var classify = function(name) {
+  return '.' + name.replace(/\s/g, '.')
+}
+
 // Public API function
 var Loader = {
 
   options: {
-    selector       : document.body,
-    loaderClass    : 'loader'
+    parent       : document.body,
+    className    : 'loader'
   },
 
   init: function() {
-    if ( !document.querySelector( 'div.' + this.options.loaderClass ) ) {
+    if ( !this.element() ) {
 
       // Create and prepend loader element
-      this.options.selector.insertAdjacentHTML( 'afterbegin', '<div class="' + this.options.loaderClass + '"></div>' );
+      this.options.parent.insertAdjacentHTML( 'afterbegin', '<div class="' + this.options.className + '"></div>' );
 
     }
 
@@ -18,7 +22,7 @@ var Loader = {
   },
 
   element: function() {
-    return document.querySelector( 'div.' + this.options.loaderClass );
+    return document.querySelector( classify( this.options.className ) );
   },
   
   // Show loader with default loading message and style
@@ -37,13 +41,13 @@ var Loader = {
   },
 
   // Base show loader function
-  show: function( message, classname ) {
+  show: function( message, className ) {
 
     el = this.init()
 
     el.textContent = message
-    el.className = this.options.loaderClass
-    el.classList.add( classname );
+    el.className = this.options.className
+    el.classList.add( className );
 
   },
 
