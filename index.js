@@ -6,47 +6,46 @@ var classify = function(name) {
 var Loader = {
 
   options: {
-    parent       : document.body,
     className    : 'loader'
   },
 
   init: function() {
-    if ( !this.element() ) {
+    if ( !Loader.element() ) {
 
       // Create and prepend loader element
-      this.options.parent.insertAdjacentHTML( 'afterbegin', '<div class="' + this.options.className + '"></div>' );
+      document.body.insertAdjacentHTML( 'afterbegin', '<div class="' + Loader.options.className + '"></div>' );
 
     }
 
-    return this.element()
+    return Loader.element()
   },
 
   element: function() {
-    return document.querySelector( classify( this.options.className ) );
+    return document.querySelector( classify( Loader.options.className ) );
   },
   
   // Show loader with default loading message and style
   loading: function ( message ) {
-    this.show( message || 'Hang tight…', 'loading' )
+    Loader.show( message || 'Hang tight…', 'loading' )
   },
 
   // Show loader with success loading message and style
   success: function ( message ) {
-    this.show( message || 'Got it!', 'success' )
+    Loader.show( message || 'Got it!', 'success' )
   },
 
   // Show loader with success failure message and style
   failure: function ( message ) {
-    this.show( message || 'Hold up!', 'failure' )
+    Loader.show( message || 'Hold up!', 'failure' )
   },
 
   // Base show loader function
   show: function( message, className ) {
 
-    el = this.init()
+    el = Loader.init()
 
     el.textContent = message
-    el.className = this.options.className
+    el.className = Loader.options.className
     el.classList.add( className );
 
   },
@@ -55,7 +54,7 @@ var Loader = {
   remove: function() {
 
     // Reset to base classname
-    var el = this.element()
+    var el = Loader.element()
     el.parentNode.removeChild(el)
 
   }
