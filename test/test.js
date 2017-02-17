@@ -19,7 +19,7 @@ describe('Loader', function(){
 
   it('displays a failure state', function(){
 
-    Loader.failure()
+    Loader.failure( { removeAfter: false } )
 
     assert.equal( loaderEl().textContent, 'Hold up!' )
     assert.isTrue( loaderEl().classList.contains( 'failure' ) )
@@ -28,7 +28,7 @@ describe('Loader', function(){
 
   it('displays a success state', function(){
 
-    Loader.success()
+    Loader.success( { removeAfter: false } )
 
     assert.equal( loaderEl().textContent, 'Got it!' )
     assert.isTrue( loaderEl().classList.contains( 'success' ) )
@@ -46,7 +46,7 @@ describe('Loader', function(){
 
   it('displays a success custom show message', function(){
 
-    Loader.show( 'Test Message!', 'test-class' )
+    Loader.show( { message: 'Test Message!', className: 'test-class' } )
     assert.equal( loaderEl().textContent, 'Test Message!' )
     assert.isTrue( loaderEl().classList.contains( 'test-class' ) )
 
@@ -54,6 +54,18 @@ describe('Loader', function(){
 
   it('removes the loader when done', function() {
     Loader.remove()
-    assert.isNull(loaderEl())
+    requestAnimationFrame( function() { 
+      assert.isNull( loaderEl() )
+    })
+  })
+
+  it('automatically removes messages', function() {
+    Loader.success( { removeAfter: 30 } )
+
+    setTimeout( function() {
+      requestAnimationFrame( function() { 
+        assert.isNull( loaderEl() )
+      })
+    }, 30 )
   })
 })

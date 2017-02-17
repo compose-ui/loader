@@ -6,7 +6,8 @@ var classify = function(name) {
 var Loader = {
 
   options: {
-    className    : 'loader'
+    className    : 'loader',
+    removeAfter  : 500
   },
 
   init: function() {
@@ -25,38 +26,70 @@ var Loader = {
   },
   
   // Show loader with default loading message and style
-  loading: function ( message ) {
-    Loader.show( message || 'Hang tight…', 'loading' )
+  loading: function ( options ) {
+    options = Loader.setOptions( options, 'Hang tight…', 'loading' )
+    Loader.show( options )
   },
 
   // Show loader with success loading message and style
-  success: function ( message ) {
-    Loader.show( message || 'Got it!', 'success' )
+  success: function ( options ) {
+    options = Loader.setOptions( options, 'Got it!', 'success' )
+    if ( typeof options.removeAfter == 'undefined' ) options.removeAfter = Loader.options.removeAfter
+
+    Loader.show( options )
   },
 
   // Show loader with success failure message and style
-  failure: function ( message ) {
-    Loader.show( message || 'Hold up!', 'failure' )
+  failure: function ( options ) {
+    options = Loader.setOptions( options, 'Hold up!', 'failure' )
+    if ( typeof options.removeAfter == 'undefined' ) options.removeAfter = Loader.options.removeAfter
+
+    Loader.show( options )
   },
 
   // Base show loader function
-  show: function( message, className ) {
+  show: function( options ) {
 
     el = Loader.init()
 
-    el.textContent = message
+    el.textContent = options.message
     el.className = Loader.options.className
-    el.classList.add( className );
+    el.classList.add( options.className );
+
+    if ( options.removeAfter ) {
+
+      // Remove loader after timeout
+      setTimeout( function(){
+        requestAnimationFrame( Loader.remove( options.callback ) )
+      }, options.removeAfter )
+
+    }
 
   },
 
   // Hide loader icon function
-  remove: function() {
+  remove: function( callback ) {
 
     // Reset to base classname
     var el = Loader.element()
-    el.parentNode.removeChild(el)
 
+    requestAnimationFrame( function(){ 
+      el.parentNode.removeChild(el)
+      if ( typeof callback === 'function' ) callback()
+    })
+
+  },
+
+  setOptions: function ( options, message, className ) {
+    options = options || {}
+    if ( typeof options == 'string' ) {
+      options = { message: options }
+    }
+
+    options.message   = options.message   || message
+    options.className = options.className || className
+
+    return options
   }
 
 };
