@@ -1,19 +1,51 @@
-var assert = require('chai').assert
-var Loader = require('../')
 require('./_object.assign.js')
 
+var Loader,
+    assert = require('chai').assert,
+    loader = require('../')
+
 var loaderEl = function() {
-  return document.querySelector('.loader')
+  return document.querySelector( '.'+Loader.options.className )
 }
 
 describe('Loader', function(){
+
+  it( 'allows overwriting defaults', function() {
+    var d = loader.defaults({})
+
+    assert.equal( d.success, 'Success!' )
+    loader.defaults({ success: 'Got it!' })
+    assert.equal( d.success, 'Got it!' )
+
+  })
+
+  it( 'allows overwriting defaults for an instance', function() {
+
+    var d = loader.defaults({})
+
+    assert.equal( d.loading, 'Loading…' )
+
+    Loader = loader.new({
+      loading: 'Hang tight…',
+      failure: 'Hold up!'
+    })
+
+    // Default is the same
+    assert.equal( d.loading, 'Loading…' )
+
+    // Instance option is different
+    assert.equal( Loader.options.loading, 'Hang tight…' )
+
+  })
+
+
   it('displays a loading state', function(){
 
     Loader.loading()
 
     assert.isDefined( loaderEl() )
-    assert.equal( loaderEl().textContent, 'Hang tight…')
-    assert.isTrue( loaderEl().classList.contains( 'loading' ) )
+    assert.equal( Loader.element().textContent, 'Hang tight…')
+    assert.isTrue( Loader.element().classList.contains( 'loading' ) )
 
   })
 
