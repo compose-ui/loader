@@ -22,19 +22,21 @@ var Loader = {
 
     var settings = merge( defaultSettings, options || {} )
 
-    var el,
-        parent = document.querySelector( settings.parent )
+    var el
+
+    if ( typeof settings.parent == 'string' )
+        settings.parent = document.querySelector( settings.parent )
 
     function element () {
       if ( !el ) {
-        parent.insertAdjacentHTML( 'beforeend', '<div class="' + settings.className + '"></div>' );
-        el = parent.lastChild
+        settings.parent.insertAdjacentHTML( 'beforeend', '<div class="' + settings.className + '"></div>' );
+        el = settings.parent.lastChild
       }
 
       return el
     }
 
-    function show( options ) {
+    function show ( options ) {
       options = merge( settings, options || {} )
 
       el = element()
@@ -76,9 +78,14 @@ var Loader = {
         className: type
       }, options || {} )
 
+      
       // Default to removeAfter setting (not overriding false)
-      if ( ( type == 'success' || type == 'failure' ) && typeof options.removeAfter == 'undefined' )
-        options.removeAfter = settings.removeAfter
+      if ( typeof options.removeAfter == 'undefined' ) {
+        if ( type == 'loading' )
+          options.removeAfter = false
+        else
+          options.removeAfter = settings.removeAfter
+      }
 
       return options
 
@@ -86,7 +93,8 @@ var Loader = {
 
     function remove ( callback ) {
       requestAnimationFrame( function(){ 
-        parent.removeChild( element() )
+        settings.parent.removeChild( element() )
+        el = null
         if ( typeof callback === 'function' ) callback()
       })
     }
