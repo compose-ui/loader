@@ -49,7 +49,7 @@ Here are the default options.
 You can change the defaults for loader like this:
 
 ```js
-// Change base classname for all instances of loader
+// Override defaults, changing base classname for all future instances of loader
 Loader.defaults( {  className: 'loader-widget' } )     
 
 // Override loading message for only this instance of the loader
